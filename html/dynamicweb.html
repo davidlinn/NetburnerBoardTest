@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Dynamic Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+  	<script src="jquery-3.0.0.min.js"></script>
+  	<script type="text/javascript" src="script.js"></script>	
+</head>
+
+<body>
+<body> 
+<div class="side">
+	<script>
+	$( ".side" ).load( "header.html nav");
+	</script>
+</div>
+    
+<div id="container">
+<h1>Dynamic Web Content</h1>
+      <p>The dip switch settings on the development board can be viewed as part 
+        of the LED Example web page. Rather than static pages, the value is delivered
+        to the requesting web browser dynamically at run time. This is accomplished 
+        using FUNCTIONCALL tags. A FUNCTIONCALL tag tells the NetBurner web server 
+        to call a C/C++ function, which can then insert any type of content such 
+        as: simple text, pictures, graphs etc.. In this simple example, a table 
+        is created to show the dip switch settings:</p>
+      <p>The FUNCTIONCALL tags for this example are shown below:</p>
+      <code>
+      <br>
+      <pre>&lt;!--FUNCTIONCALL DoSwitches --&gt; </pre>
+
+<p>The corresponding C function call is:</p>
+
+<form><br>
+ <code>
+ <i>/*-------------------------------------------------------------------<br>
+ This function displays a set of dip switch indicators on a web page.<br>
+ The state of each switch is represented by a bit in an 8-bit <br>
+ register. A bit value of 0 = on, and 1 = off.<br>
+  ------------------------------------------------------------------*/
+</i>
+<br>
+<b>void </b>DoSwitches(<b>int </b>sock, PCSTR url)<br>
+{<br>
+   &nbsp;<b>const int </b>NumSwitches = 8;<br>
+   &nbsp;<i>// Get the value of the switches<br></i>
+   &nbsp;BYTE sw = ReadSwitch();<br>
+   &nbsp;iprintf(&quot;Switch Register: 0x%02X\r\n&quot;, sw );<br>
+
+  &nbsp;<i>// Write out each row of the table<br>
+  &nbsp;</i><b>for </b>(<b>int </b>i = 1; i &lt;= NumSwitches ; i++)<br>
+  &nbsp;{<br>     
+  	&nbsp;&nbsp;<b>char </b>buffer[80];<br> 
+    &nbsp;&nbsp;<b>if </b>(sw &amp; (0x80 &gt;&gt; (i-1)) )<br> 
+    &nbsp;&nbsp;{<br>     
+    &nbsp;&nbsp;&nbsp;<i>// Switch is on<br></i>
+     &nbsp;&nbsp;&nbsp;siprintf(buffer, 80, &quot;&lt;tr&gt;&lt;td&gt;Switch %d &#60;b>OFF&#60;/b> &lt;/td&gt;&lt;/tr&gt;&quot;, i);<br>
+     &nbsp;&nbsp;}<br>  
+     &nbsp;&nbsp;<b>else<br> </b>
+     &nbsp;&nbsp;{<br>   
+    &nbsp;&nbsp;&nbsp;<i>// Switch is off<br></i>
+    &nbsp;&nbsp;&nbsp;siprintf(buffer, 80, &quot;&lt;tr&gt;&lt;td&gt;Switch %d &#60;b>ON&#60;/b> &lt;/td&gt;&lt;/tr&gt;&quot;, i);<br>
+    &nbsp;&nbsp;}<br>
+   &nbsp;&nbsp;writestring(sock, buffer);<br>   
+    &nbsp;}<br><br>  
+     &nbsp;<i>// Put in a link that reloads the page</i><br>
+     &nbsp;writestring(sock, &quot;&lt;A HREF=\&quot;&quot;);<br>   
+     &nbsp;writestring(sock, url);<br>   
+     &nbsp;writestring(sock, &quot;\&quot;&gt; Refresh Switches &lt;/A&gt;&quot;);<br>
+     }
+</code>
+</form>
+
+</div>
+</body>
+</html>
+
+<style>
+form {
+	background-color: white;
+	text-align: left;
+	padding-left: 15px;
+}
+
+p {
+	text-align: left;
+}
+</style>

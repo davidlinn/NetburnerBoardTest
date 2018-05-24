@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>LED Demo</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+  	<script src="jquery-3.0.0.min.js"></script>
+  	<script type="text/javascript" src="script.js"></script>
+</head>
+<body> 
+<div class="side">
+	<script>
+	$( ".side" ).load( "header.html nav");
+	</script>
+</div>
+    
+<div id="container">
+	<br>
+	<h1>LED/Switch Control Example</h1>
+	Click on the LED symbols below to toggle the LEDs on and off on the development board<br><br>
+	<table id="lights" align="center">
+        <tr> 
+          <!--FUNCTIONCALL WebLeds -->
+        </tr>
+    </table>
+
+		  <p>&nbsp;</p>
+	      <p><b>State of the Dip Switches</b>: 
+	      </p>
+	      
+      <table id="switches" align="center">
+        <!--FUNCTIONCALL DoSwitches -->
+       </table>
+</div>
+</body>
+</html>
+
+<style>
+table {
+	border-style: solid;
+    border-color: #708090;
+    border-width: thick;
+    border-radius: 10px;
+}
+
+td {
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+#lights td {	
+    background: lightsteelblue;
+    padding-bottom: 15px;
+}
+
+#switches {
+	background: lightsteelblue;
+	padding: 10px;
+}
+
+#switches td {
+	background: white;
+	padding: 5px;
+}
+</style>    
+   

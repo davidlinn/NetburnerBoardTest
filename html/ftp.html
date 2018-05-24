@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>FTP Server Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+  	<script src="jquery-3.0.0.min.js"></script>
+  	<script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+<div class="side">
+	<script>
+	$( ".side" ).load( "header.html nav");
+	</script>
+</div>
+    
+<div id="container">
+<h1>FTP Server Example</h1>
+
+      <p>The NetBurner module is running a FTP Server that enables you to download 
+        a text file containing the number of seconds since boot. To obtain the data file:</p>
+      <ol>
+        <li>Run a FTP client program on your host computer. You can do this easily 
+          with most operating system platforms by opening a command prompt window 
+          and typing &quot;ftp &lt;ip address&gt;, where the &lt;ip address&gt; 
+          is the address of the NetBurner.</li>
+        <li>Once connected, hit the &lt;enter&gt; key when asked for user name 
+          and password (this example does not use authentication)</li>
+        <li>To view the downloadable files, type &quot;ls&quot;. You should see &quot;seconds.txt&quot;.</li>
+        <li>Use the FTP &quot;get &lt;file name&gt;&quot; command to download 
+          files. For the seconds since boot, type &quot;get seconds.txt&quot;.</li>
+        <li>Now you can view the file on your local hard drive.</li>
+        <li>To exit the FTP host program, type &quot;quit&quot; and press &lt;enter&gt;.</li>
+      </ol>
+
+  </div>
+</body>
+</html>

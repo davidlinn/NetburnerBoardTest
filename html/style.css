@@ -1,0 +1,204 @@
+/*	
+	The format for declaring CSS characteristics is:
+	
+	1 |	form h1 {
+	2 |		color: white;
+	3 |	}
+	
+	The h1 tags inside of any form is what would be styled. It would not apply to all h1 tags 
+	or all tags inside of the form, just h1 tags inside of forms.
+	If h1 were taken out of line 1, the color characteristic would apply to all 
+	text-related tags in the form, since which tag was not specified.   
+	
+	In line 2, the text color is selected as what will be changed, 
+	and on the other side of the colon is the color it will be changed to, which can be 
+	a written out color in English, in a HEX format similar to #f2f2f2, or in the 
+	RGB format rgb(240, 248, 255). A semi-colon is used to mark the end of 
+	the statement. 
+	
+	Where "form" is in line 1 could be replaced by .className or #nameOfId so that if you have 
+	multiples of the same tag in the HTML, you can style each one individually. 
+*/	
+
+/*	
+	The padding characteristics used on images will give images a buffer in 
+	the directions defined with the px size defined.
+*/
+img {
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+}
+
+/* 	
+	The charactaristics defined in .side apply just to the .side div and 
+	the tags preceeded by .side. For example the characteristics defined 
+	in .side img will only apply to images in the .side div.
+*/
+.side {
+    z-index: 1000;
+    position: fixed;
+    height: 100%;
+    background: lightsteelblue;
+    width: 175px;
+    color: white;
+    text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+    left: 0%; 
+    top: 0%;
+    size: fixed;
+}
+
+.side img {
+    padding-left: 9px;
+    width: 100px;
+}
+
+.side button {
+	height: auto; 
+	width: 150px;
+}
+
+
+
+/*	
+	The characteristics defined under body will apply to everything inside the 
+	<body> tag in the HTML unless defined otherwise in this CSS file or under
+	the <style> tag in the HTML 
+*/
+body {
+	/*background-color: #f2f2f2;*/
+    font-style: normal;
+    font-size: 1.1em;
+    width: auto;
+    height: auto;
+}
+
+
+/*
+	The <p> tag displays text the same way as writing to the webpage with no tag does. 
+	Having the <p> tag allows what is inside of it to be styled differently from the rest
+	of the body. 
+	
+	In this example, the "Next" and "Back" buttons are inside of <p> tags as 
+	an easy way to make them centered.
+*/
+
+p {
+    font-style: normal;
+    font-size: 1.1em;
+}
+
+
+p.normal {
+    font-style: normal;
+    font-size: 1.1em;
+}
+
+
+
+#container {
+    position: absolute;
+    margin: 0px; 
+    width: auto;
+    left: 220px;
+	right: 2%;
+}
+
+h1 {
+	/* float: left; 
+	padding-left: 20px;
+	padding-right: 20px;
+	*/
+	font-family: Arial, Helvetica, sans-serif;
+	color: royalblue;
+}
+
+h2 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+	Makes all the buttons in the example have the same border, text color, etc., 
+	as those in the left side nav bar unless defined otherwise, such as was done 
+	in the <style> tags in the HTML to make the "Back" and "Next" buttons a different color. 
+*/
+button {
+	background-color: #d9d9d9;
+	font-family: Arial, Helvetica, sans-serif;
+	border: none;
+	color: black;
+	border-radius: 2px;
+	border-style: solid;
+	border-color: grey;
+	border-width: 1px;
+  	width: 50%;
+  	height: 100%;
+  	display: inline-block;
+  	text-align: center;
+  	padding: 5px;
+  	left: 25%;
+}
+
+/*	
+	This animates the buttons so that when the cursor hovers over buttons, their background
+	color changes to a darker shade of red (HEX color: #9b1717)
+*/	
+button:hover {
+	background-color: lightslategrey;
+}
+
+.buttonBackNext {
+	color: black;
+	background: lightsteelblue;
+	width: 200px;
+	padding: 10px;
+    font-size: 1.1em;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttonBackNext:hover {
+	background-color: lightslategrey;
+}
+
+
+
+
+table {
+	//width: 100%;
+	border-spacing: 5px;
+	position: relative;
+	text-align: left;
+}
+
+/* 	
+	Uncomment ", table" to put a border around tables too
+*/
+form /*, table */ {
+    background-color: white;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    float:inherit;
+    text-align: left;
+    border-style: solid;
+    border-color: #708090;
+    border-width: thick;
+    border-radius: 10px;
+}
+
+/*	
+	Makes blank input box 70% of the width of the form
+*/
+form input {
+    width: 70%;
+}
+
+/*	
+	Without this, links would be blue and out of the standard font.
+*/
+a {
+	color: black; 
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: bold;
+}
+

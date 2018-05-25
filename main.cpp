@@ -52,6 +52,7 @@ extern "C"
     void UserMain(void *pd);
     void OSDumpTCBs(void);
 }
+GPSCHIP gps(GPS_TIMER); //Declare gps as global variable
 
 /*
  * Diagnostic functions used in the command dispatcher
@@ -292,8 +293,16 @@ void UserMain(void *pd)
 
     FTPServerInit(MAIN_PRIO - 2);   // Start the FTP server
 
-    GPSCHIP gps(GPS_TIMER); //Initialize GPS
+    printf("Opening serial port...\n");
+
+    int fd = SimpleOpenSerial( 0, 115200 );
+    printf("File Descriptor: %d\n",fd);
+    J2[41].function(PINJ2_41_UART9_RXD);
+    J2[44].function(PINJ2_44_UART9_TXD);
+    printf("Initializing GPS in UserMain()\n");
+    //Initialize GPS
     gps.start();
+
 
     iprintf("%s\r\n", FirmwareVersion);
     displayMenu();

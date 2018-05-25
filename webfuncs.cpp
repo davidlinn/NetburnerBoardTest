@@ -47,6 +47,7 @@
 #include "GPS\GPSCHIP.h"
 
 
+
 /*
  * Functions linked to web FUNCTIONCALL tags.
  */
@@ -58,24 +59,37 @@ extern "C"
    void DisplayFirmwareVersion( int sock, PCSTR url );
    void WebGPS( int sock, PCSTR url );
 }
+extern GPSCHIP gps;
 
 
 char buffer[255];
 
 //display GPS coordinates on web page
 void WebGPS( int sock, PCSTR url ) {
-	GPSCHIP gps(GPS_TIMER);
-	char* latBuffer = new char[80];
-	char* lonBuffer = new char[80];
-	gps.latitude.getFormattedLocation(latBuffer);
-	gps.longitude.getFormattedLocation(lonBuffer);
-	writestring(sock, "GPS Coordinates: ");
+	char latBuffer[80];
+	char lonBuffer[80];
+	gps.latitude.getDecimal(latBuffer);
+	gps.longitude.getDecimal(lonBuffer);
+	writestring(sock, "GPS Coordinates: (");
 	writestring(sock, latBuffer);
-	writestring(sock, "    ");
+	writestring(sock, ",");
 	writestring(sock, lonBuffer);
+	writestring(sock, ")");
 
 	writestring(sock, "<br>");
-	writestring(sock, gps.getGPS());
+	writestring(sock, "Num Sats: ");
+	char satsBuffer[10];
+	sprintf(satsBuffer, "%d", gps.sats);
+	writestring(sock, satsBuffer);
+
+	char mapHTMLBuff[1500];
+	sprintf(mapHTMLBuff,"<p> <iframe width=\"600\" height=\"450\""
+			"frameborder=\"0\" style=\"border:0\""
+			"src=\"https://www.google.com/maps/embed/v1/place"
+				"?key=AIzaSyBvtk5gC31rbCfnETbWBL8EFalLJ7esgqM&q=%s,%s&maptype=satellite\""
+				"allowfullscreen></iframe></p>", latBuffer, lonBuffer);
+	printf(mapHTMLBuff);
+	writestring(sock,mapHTMLBuff);
 }
 
 

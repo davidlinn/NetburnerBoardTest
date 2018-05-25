@@ -26,8 +26,13 @@
 
 #include "GPSCHIP.h"
 
+bool GPSCHIP::webCheck() {
+	return CheckGPSCheckSum(gpsBuff);
+}
+
 void GPSCHIP::readLoop() {
-    /*
+    printf("Got to readLoop()\n");
+	/*
      * Statement values:
      * 0: No statement
      * 1: GPGGA
@@ -67,6 +72,7 @@ void GPSCHIP::readLoop() {
             if(!found) {
                 SerialClose(serialPort);
             } else {
+                printf("\nSerial Port found w/ baud rate trial and error.\n");
                 break;
             }
         }
@@ -76,11 +82,13 @@ void GPSCHIP::readLoop() {
         }
     } else {
         fdIncoming = SimpleOpenSerial(serialPort, serialBaud );
+        printf("\nSerial Port found simply.\n");
     }
 
     int parseState = 0;
     while (!allDone) {
-        read(fdIncoming, myBuff, 1);
+        int numCharsRead = read(fdIncoming, myBuff, 1);
+        //printf("Read %i characters from serial\n", numCharsRead);
         myBuff[1] = 0;
         if (myBuff[0] == '$') {
             identifier[0] = myBuff[0];
@@ -174,11 +182,16 @@ void GPSCHIP::readLoop() {
                 strcat(buff, myBuff);
                 break;
             case 99:
-                if (myBuff[0] == '\n')
+                printf("case 99\n");
+            	if (myBuff[0] == '\n')
                     parseState = 0;
                 else
                     parseState = 98;
                 strcat(buff, myBuff);
+                printf("Statement: %d\n", statement);
+                printf("Buffer: %s\n", buff);
+                for (int i = 0; i < 512; i++) //512 is buff size
+                	gpsBuff[i] = buff[i];
                 switch (statement) {
                 case 0:
                     break;
@@ -195,12 +208,18 @@ void GPSCHIP::readLoop() {
                     DecodeGPGSA(buff);
                     break;
                 }
+                char latBuff[50];
+                char lonBuff[50];
+                latitude.getFormattedLocation(latBuff);
+                longitude.getFormattedLocation(lonBuff);
+                printf("Sats: %d\nLat: %s\nLon: %s",sats,latBuff, lonBuff);
                 memcpy(buff, "\0", strlen(buff));
                 break;
             default:
                 parseState = 0;
                 break;
             }
+            //printf("End Parse State: %d\n", parseState);
         }
         //OSTimeDly(TICKS_PER_SECOND * 1);
     }
@@ -217,12 +236,15 @@ void GPSCHIP::start() {
     OSTaskCreate(GPSCHIP::staticreadLoop, (void *) this,
             (void *) &GPSTaskStack[USER_TASK_STK_SIZE / 2],
             (void *) GPSTaskStack, priority);
+    printf("Created staticreadloop task\n");
 }
 
 // staticreadLoop gives OSTaskCreate a target function to call.
 void GPSCHIP::staticreadLoop(void * p) {
-    GPSCHIP * po;
+    printf("Entered staticreadloop\n");
+	GPSCHIP * po;
     po = (GPSCHIP*) p;
+    printf("About to call readLoop()\n");
     po->readLoop();
 }
 

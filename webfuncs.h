@@ -29,7 +29,7 @@
 #define _WEBFUNCS_H_
 
 
-const char FirmwareVersion[] = "DavidTest "__DATE__"";
+const char FirmwareVersion[] = "DavidTest " __DATE__ "";
 
 
 #endif /* _WEBFUNCS_H_ */

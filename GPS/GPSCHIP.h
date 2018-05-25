@@ -44,13 +44,12 @@
 #include "GPSLocation.h"
 #include "GPSSat.h"
 #include "GPSNtp.h"
-
 #ifndef GPSCHIP_H_
 #define GPSCHIP_H_
 
 // Some constants
-#define PRIORITY    (MAIN_PRIO-2)
-#define SERIAL_PORT (1)
+#define PRIORITY    (MAIN_PRIO-3)
+#define SERIAL_PORT (9)
 #define SERIAL_BAUD (0) // Baudrate or 0 for auto-select
 #define LOG_SIZE    (5)
 
@@ -66,6 +65,7 @@ public:
     bool allDone;
     DWORD GPSTaskStack[USER_TASK_STK_SIZE/2];
     int fdIncoming;
+    char gpsBuff[512];
 
 
     // Functions
@@ -74,6 +74,7 @@ public:
     BYTE GetGPSCheckSum(const char* GPSString );
     BOOL CheckGPSCheckSum( const char* GPSString );
     void resetGM862();
+    bool webCheck();
 
 public:
     // Variables
